@@ -20,6 +20,8 @@ case "${1}" in
         echo "starting+enabling systemd service"
         systemctl start disable-c6.service
         systemctl enable disable-c6.service
+
+        sudo ./ZenStates-Linux/zenstates.py --c6-disable
         ;;
     disable)
         echo "stopping+disabling systemd service"
@@ -30,6 +32,11 @@ case "${1}" in
         sudo rm /etc/modules-load.d/msr.conf
         sudo rm /usr/lib/systemd/system-sleep/disable-c6.sh
         sudo rm /etc/systemd/system/disable-c6.service
+
+        echo "removing deleted service"
+        systemctl daemon-reload
+
+        sudo ./ZenStates-Linux/zenstates.py --c6-enable
         ;;
     *)
         echo "usage: setup.sh [enable/disable]"
